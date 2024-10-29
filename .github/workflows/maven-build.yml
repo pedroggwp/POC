@@ -1,4 +1,4 @@
-name: CI/CD - Spring
+name: CD - AWS EC2
 
 on:
   push:
@@ -21,13 +21,18 @@ jobs:
         cache: maven
     - name: Build with Maven
       run: mvn -B package -DskipTests --file pom.xml
+
+    # - name: Render Deploy Action
+    #   uses: johnbeynon/render-deploy-action@v0.0.8
+    #   with:
+    #     service-id: srv-cr6qrttds78s73c2sb4g 
+    #     api-key: rnd_D7dWpTNUbzAIOKXoQmdNjWg8n5Dk
           
-    - name: AWS EC2 Deploy
+    - name: Deploy na EC2
       run: |
            echo "${{secrets.KEY_EC2_E}}" >private_key && chmod 400 private_key
            ssh -o StrictHostKeyChecking=no -i "private_key" ubuntu@ec2-52-1-74-90.compute-1.amazonaws.com "
-                   cd /home/ubuntu/POC &&
-                   git pull &&
-                   mvn clean package -DskipTests &&
-                   ./executar.sh
-           "                     
+                     cd /home/ubuntu/springEasy-Render &&
+                     git pull 
+                     mvn clean package -DskipTests &&
+                     ./executar.sh "

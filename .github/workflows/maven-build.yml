@@ -26,10 +26,8 @@ jobs:
       run: |
            echo "${{secrets.KEY_EC2_E}}" >private_key && chmod 400 private_key
            ssh -o StrictHostKeyChecking=no -i "private_key" ubuntu@ec2-52-1-74-90.compute-1.amazonaws.com "
-                     cd /home/ubuntu/POC &&
-                     git pull 
-                     mvn clean package -DskipTests &&
-                     ./executar.sh "
-
-                     
-                     
+                   cd /home/ubuntu/POC &&
+                   git pull &&
+                   mvn clean package -DskipTests &&
+                   ./executar.sh
+           "                     
